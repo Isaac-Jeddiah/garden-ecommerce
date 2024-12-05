@@ -85,6 +85,11 @@ exports.updateOrder =  catchAsyncError(async (req, res, next) => {
     })
 
     order.orderStatus = req.body.orderStatus;
+    //cash on delivery updation manually
+    if (req.body.orderStatus === 'Delivered') {
+        order.paymentInfo.status = 'Paid'; // Update payment status to "Paid"
+        order.deliveredAt = Date.now(); // Add delivered timestamp
+    }
     order.deliveredAt = Date.now();
     await order.save();
 
@@ -113,3 +118,26 @@ exports.deleteOrder = catchAsyncError(async (req, res, next) => {
     })
 })
 
+// Cancel Order - api/v1/order/cancel/:id
+exports.cancelOrder = catchAsyncError(async (req, res, next) => {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+        return next(new ErrorHandler(`Order not found with this id: ${req.params.id}`, 404));
+    }
+
+    // Check if order is already shipped
+    if (order.orderStatus === 'Delivered') {
+        return next(new ErrorHandler('Order has already been Delivered and cannot be canceled.', 400));
+    }
+
+    order.orderStatus = 'Cancelled';  // Set order status to "Cancelled"
+    order.paymentInfo.status='will be refunded in a week'
+    await order.save();
+
+    res.status(200).json({
+        success: true,
+        message: 'Order has been cancelled successfully.',
+        order,
+    });
+});

@@ -33,18 +33,7 @@ const productSchema = new mongoose.Schema({
         required: [true, "Please enter product category"],
         enum: {
             values: [
-                'Electronics',
-                'Mobile Phones',
-                'Laptops',
-                'Accessories',
-                'Headphones',
-                'Food',
-                'Books',
-                'Clothes/Shoes',
-                'Beauty/Health',
-                'Sports',
-                'Outdoor',
-                'Home'
+                'Plants','Plant Care',
             ],
             message : "Please select correct category"
         }
@@ -56,7 +45,7 @@ const productSchema = new mongoose.Schema({
     stock: {
         type: Number,
         required: [true, "Please enter product stock"],
-        maxLength: [20, 'Product stock cannot exceed 20']
+        maxLength: [200, 'Product stock cannot exceed 20']
     },
     numOfReviews: {
         type: Number,
