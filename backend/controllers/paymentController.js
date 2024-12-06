@@ -44,7 +44,7 @@ exports.refundPayment = catchAsyncError(async (req, res, next) => {
         // Update the order's payment status to "refunded"
         const order = await Order.findOneAndUpdate(
             { "paymentInfo.id": paymentIntentId }, // Find the order with the given paymentIntentId
-            { "paymentInfo.status": "refunded" }, // Update paymentInfo.status to "refunded"
+            { "paymentInfo.status": "Refunded" }, // Update paymentInfo.status to "refunded"
             { new: true } // Return the updated document
         );
 

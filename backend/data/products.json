@@ -12,7 +12,7 @@
                 "image": "/images/products/2.jpg"
             }
         ],
-        "category": "Mobile Phones",
+        "category": "Plant Care",
         "seller": "Amazon",
         "stock": 5,
         "numOfReviews": 15,
@@ -28,7 +28,7 @@
                 "image": "/images/products/2.jpg"
             }
         ],
-        "category": "Accessories",
+        "category": "Plants",
         "seller": "Flipkart",
         "stock": 9,
         "numOfReviews": 5,
@@ -44,7 +44,7 @@
                 "image": "/images/products/3.jpg"
             }
         ],
-        "category": "Laptops",
+        "category": "Plant Care",
         "seller": "Ebay",
         "stock": 9,
         "numOfReviews": 12,
@@ -60,7 +60,7 @@
             "image": "/images/products/6.jpg"
           }
         ],
-        "category": "Laptops",
+        "category": "Plant Care",
         "seller": "Ebay",
         "stock": 9,
         "numOfReviews": 12,
@@ -76,7 +76,7 @@
             "image": "/images/products/7.jpg"
           }
         ],
-        "category": "Laptops",
+        "category": "Plants",
         "seller": "Ebay",
         "stock": 9,
         "numOfReviews": 12,
@@ -92,7 +92,7 @@
                 "image": "/images/products/4.jpg"
             }
         ],
-        "category": "Headphones",
+        "category": "Plant Care",
         "seller": "Amazon",
         "stock": 4,
         "numOfReviews": 20,
@@ -108,7 +108,7 @@
                 "image": "/images/products/5.jpg"
             }
         ],
-        "category": "Sports",
+        "category": "Plants",
         "seller": "Ebay",
         "stock": 6,
         "numOfReviews": 9,

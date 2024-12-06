@@ -1,50 +1,41 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { FiHome, FiBox, FiShoppingCart, FiUsers, FiStar } from 'react-icons/fi';
+import { Link, useNavigate } from 'react-router-dom';
+import { NavDropdown } from 'react-bootstrap';
 
-const Sidebar = () => {
-  const location = useLocation();
+export default function Sidebar () {
 
-  const menuItems = [
-    { icon: FiHome, text: 'Dashboard', path: '/admin/dashboard' },
-    { icon: FiBox, text: 'Products', path: '/admin/products' },
-    { icon: FiShoppingCart, text: 'Orders', path: '/admin/orders' },
-    { icon: FiUsers, text: 'Users', path: '/admin/users' },
-    { icon: FiStar, text: 'Reviews', path: '/admin/reviews' },
-  ];
+    const navigate = useNavigate();
 
-  return (
-    <motion.div
-      initial={{ x: -250 }}
-      animate={{ x: 0 }}
-      className="bg-green-100 text-green-800 h-screen w-64 fixed left-0 top-0 overflow-y-auto"
-      style={{ zIndex: 1000 }}
-    >
-      <div className="p-5">
-        <h2 className="text-2xl font-bold mb-5">Admin Panel</h2>
-        <nav>
-          {menuItems.map((item, index) => (
-            <Link key={index} to={item.path}>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`flex items-center p-3 mb-2 rounded-lg transition-colors ${
-                  location.pathname === item.path
-                    ? 'bg-green-200 text-green-900'
-                    : 'text-green-700 hover:bg-green-200 hover:text-green-900'
-                }`}
-              >
-                <item.icon className="mr-3" />
-                {item.text}
-              </motion.div>
-            </Link>
-          ))}
-        </nav>
-      </div>
-    </motion.div>
-  );
-};
+    return (
+        <div className="sidebar-wrapper">
+            <nav id="sidebar">
+                <ul className="list-unstyled components">
+                <li>
+                    <Link to="/admin/dashboard"><i className="fas fa-tachometer-alt"></i> Dashboard</Link>
+                </li>
+        
+                <li>
+                    <NavDropdown title={
+                        <i className='fa fa-product-hunt'> Product</i>
+                    }>
+                        <NavDropdown.Item  onClick={() => navigate('/admin/products')} > <i className='fa fa-shopping-basket'> All</i></NavDropdown.Item>
+                        <NavDropdown.Item  onClick={() => navigate('/admin/products/create')} > <i className='fa fa-plus'> Create </i></NavDropdown.Item>
+                    </NavDropdown>
+                </li>
 
-export default Sidebar;
+                <li>
+                    <Link to="/admin/orders"><i className="fa fa-shopping-basket"></i> Orders</Link>
+                </li>
 
+                <li>
+                    <Link to="/admin/users"><i className="fa fa-users"></i> Users</Link>
+                </li>
+
+                <li>
+                    <Link to="/admin/reviews"><i className="fa fa-users"></i> Reviews</Link>
+                </li>
+        
+            </ul>
+            </nav>
+        </div>
+    )
+}

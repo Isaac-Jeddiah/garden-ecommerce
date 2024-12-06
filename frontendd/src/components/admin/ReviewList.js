@@ -1,108 +1,139 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteReview, getReviews } from '../../actions/productActions';
-import { clearError, clearReviewDeleted } from '../../slices/productSlice';
-import { toast } from 'react-toastify';
-import Sidebar from './Sidebar';
-import { motion } from 'framer-motion';
-import { FiTrash2 } from 'react-icons/fi';
+import { Fragment, useEffect, useState } from "react"
+import { Button } from "react-bootstrap"
+import { useDispatch, useSelector } from "react-redux"
+import { deleteReview, getReviews } from "../../actions/productActions"
+import { clearError, clearReviewDeleted } from "../../slices/productSlice"
+import Loader from '../layouts/Loader';
+import { MDBDataTable} from 'mdbreact';
+import {toast } from 'react-toastify'
+import Sidebar from "./Sidebar"
 
-const ReviewList = () => {
-  const { reviews = [], loading = true, error, isReviewDeleted } = useSelector((state) => state.productState);
-  //const [productId, setProductId] = useState(''); // Removed productId state
-  const dispatch = useDispatch();
+export default function ReviewList() {
+    const { reviews = [], loading = true, error, isReviewDeleted }  = useSelector(state => state.productState)
+    const [productId, setProductId] = useState("");
+    const dispatch = useDispatch(); 
 
-  useEffect(() => {
-    if (error) {
-      toast(error, { position: toast.POSITION.BOTTOM_CENTER, type: 'error', onOpen: () => dispatch(clearError()) });
-      return;
+    const setReviews = () => {
+        const data = {
+            columns : [
+                {
+                    label: 'ID',
+                    field: 'id',
+                    sort: 'asc'
+                },
+                {
+                    label: 'Rating',
+                    field: 'rating',
+                    sort: 'asc'
+                },
+                {
+                    label: 'User',
+                    field: 'user',
+                    sort: 'asc'
+                },
+                {
+                    label: 'Comment',
+                    field: 'comment',
+                    sort: 'asc'
+                },
+                {
+                    label: 'Actions',
+                    field: 'actions',
+                    sort: 'asc'
+                }
+            ],
+            rows : []
+        }
+
+        reviews.forEach( review => {
+            data.rows.push({
+                id: review._id,
+                rating: review.rating,
+                user : review.user.name,
+                comment: review.comment ,
+                actions: (
+                    <Fragment>
+                        <Button onClick={e => deleteHandler(e, review._id)} className="btn btn-danger py-1 px-2 ml-2">
+                            <i className="fa fa-trash"></i>
+                        </Button>
+                    </Fragment>
+                )
+            })
+        })
+
+        return data;
     }
-    if (isReviewDeleted) {
-      toast('Review deleted successfully', {
-        type: 'success',
-        position: toast.POSITION.BOTTOM_CENTER,
-        onOpen: () => dispatch(clearReviewDeleted()),
-      });
+
+    const deleteHandler = (e, id) => {
+        e.target.disabled = true;
+        dispatch(deleteReview(productId, id))
     }
-    dispatch(getReviews()); // Modified to fetch all reviews
-  }, [dispatch, error, isReviewDeleted]);
 
-  // Removed submitHandler function
+    const submitHandler = (e) =>{
+        e.preventDefault();
+        dispatch(getReviews(productId))
+    }
 
-  const deleteHandler = (reviewId) => {
-    dispatch(deleteReview(reviewId)); // Updated deleteHandler
-  };
+    useEffect(() => {
+        if(error) {
+            toast(error, {
+                position: toast.POSITION.BOTTOM_CENTER,
+                type: 'error',
+                onOpen: ()=> { dispatch(clearError()) }
+            })
+            return
+        }
+        if(isReviewDeleted) {
+            toast('Review Deleted Succesfully!',{
+                type: 'success',
+                position: toast.POSITION.BOTTOM_CENTER,
+                onOpen: () => dispatch(clearReviewDeleted())
+            })
+            dispatch(getReviews(productId))
+            return;
+        }
 
-  return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1 p-10 bg-green-50 ml-64">
-        <h1 className="text-3xl font-bold mb-8 text-green-800">Review List</h1>
-        {/* Removed the form */}
-        {reviews.length > 0 ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-lg shadow-md overflow-hidden"
-          >
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Review ID
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Rating
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Comment
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    User
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Product
-                  </th> {/* Added Product column */}
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {reviews.map((review) => (
-                  <motion.tr
-                    key={review._id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{review._id}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{review.rating}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{review.comment}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{review.user.name}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{review.product.name}</td> {/* Added product name */}
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button
-                        onClick={() => deleteHandler(review._id)}
-                        className="text-red-600 hover:text-red-900"
-                      >
-                        <FiTrash2 className="inline-block mr-1" />
-                        Delete
-                      </button>
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </motion.div>
-        ) : (
-          <p className="text-center text-gray-500 mt-4">No reviews found.</p>
-        )}
-      </div>
+       
+    },[dispatch, error, isReviewDeleted])
+
+
+    return (
+        <div className="row">
+        <div className="col-12 col-md-2">
+                <Sidebar/>
+        </div>
+        <div className="col-12 col-md-10">
+            <h1 className="my-4">Review List</h1>
+            <div className="row justify-content-center mt-5">
+                <div className="col-5">
+                    <form onSubmit={submitHandler}>
+                        <div className="form-group">
+                            <label >Product ID</label>
+                            <input 
+                                type="text"
+                                onChange= {e => setProductId(e.target.value)}
+                                value={productId}
+                                className="form-control"
+                            />
+                        </div>
+                        <button type="submit" disabled={loading} className="btn btn-primary btn-block py-2">
+                            Search
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <Fragment>
+                {loading ? <Loader/> : 
+                    <MDBDataTable
+                        data={setReviews()}
+                        bordered
+                        striped
+                        hover
+                        className="px-3"
+                    />
+                }
+            </Fragment>
+        </div>
     </div>
-  );
-};
-
-export default ReviewList;
-
+    )
+}

@@ -1,33 +1,47 @@
-import React, { useEffect } from 'react';
+import Sidebar from "./Sidebar";
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdminProducts } from '../../actions/productActions';
+import { useEffect } from "react";
+import { getAdminProducts } from "../../actions/productActions";
 import { getUsers } from '../../actions/userActions';
 import { adminOrders as adminOrdersAction } from '../../actions/orderActions';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { adminContactMessages } from "../../actions/contactActions";
+import { Link } from "react-router-dom";
 import { Pie, Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title } from 'chart.js';
-import Sidebar from './Sidebar';
-import { adminContactMessages } from "../../actions/contactActions"; // Add this import
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+} from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
 
-const Dashboard = () => {
+export default function Dashboard() {
+  const { products = [] } = useSelector(state => state.productsState);
+  const { adminOrders = [] } = useSelector(state => state.orderState);
+  const { users = [] } = useSelector(state => state.userState);
+  const { contactMessages = [] } = useSelector(state => state.contactState);
   const dispatch = useDispatch();
-  const { products = [] } = useSelector((state) => state.productsState);
-  const { adminOrders = [] } = useSelector((state) => state.orderState);
-  const { users = [] } = useSelector((state) => state.userState);
-  const { contactMessages = [] } = useSelector( state => state.contactState); // Add this line
-  
-  useEffect(() => {
-    dispatch(getAdminProducts);
-    dispatch(getUsers);
-    dispatch(adminOrdersAction);
-    dispatch(adminContactMessages); // Add this line
-  }, [dispatch]);
+  let outOfStock = 0;
 
-  const outOfStock = products.filter((product) => product.stock === 0).length;
-  const totalAmount = adminOrders.reduce((acc, order) => acc + order.totalPrice, 0);
+  if (products.length > 0) {
+    products.forEach(product => {
+      if (product.stock === 0) {
+        outOfStock = outOfStock + 1;
+      }
+    });
+  }
+
+  let totalAmount = 0;
+  if (adminOrders.length > 0) {
+    adminOrders.forEach(order => {
+      totalAmount += order.totalPrice;
+    });
+  }
 
   const pieChartData = {
     labels: ['In Stock', 'Out of Stock'],
@@ -59,108 +73,121 @@ const Dashboard = () => {
     ],
   };
 
+  useEffect(() => {
+    dispatch(getAdminProducts);
+    dispatch(getUsers);
+    dispatch(adminOrdersAction);
+    dispatch(adminContactMessages);
+  }, []);
+
   return (
-    <div className="flex">
-      
-      <Sidebar />
-      
-      <div className="flex-1 p-10 bg-green-50 ml-64">
-        <h1 className="text-3xl font-bold mb-8 text-green-800">Dashboard</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <DashboardCard
-            title="Total Amount"
-            value={`$${totalAmount.toFixed(2)}`}
-            link="/admin/orders"
-            color="bg-blue-500"
-          />
-          <DashboardCard
-            title="Products"
-            value={products.length}
-            link="/admin/products"
-            color="bg-green-500"
-          />
-          <DashboardCard
-            title="Orders"
-            value={adminOrders.length}
-            link="/admin/orders"
-            color="bg-yellow-500"
-          />
-          <DashboardCard
-            title="Users"
-            value={users.length}
-            link="/admin/users"
-            color="bg-purple-500"
-          />
-        </div>
-        
-        <div className="col-xl-3 col-sm-6 mb-3">
-                        <div className="card text-white bg-warning o-hidden h-100">
-                            <div className="card-body">
-                                <div className="text-center card-font-size">Contact Messages<br /> <b>{contactMessages.length}</b></div>
-                            </div>
-                            <Link className="card-footer text-white clearfix small z-1" to="/admin/contact-messages">
-                                <span className="float-left">View Details</span>
-                                <span className="float-right">
-                                    <i className="fa fa-angle-right"></i>
-                                </span>
-                            </Link>
-                        </div>
-                    </div>
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-2xl font-semibold mb-4">Product Stock Status</h2>
-            <div className="w-full h-64">
-              <Pie data={pieChartData} options={{ responsive: true, maintainAspectRatio: false }} />
+    <div className="row">
+      <div className="col-12 col-md-2">
+        <Sidebar />
+      </div>
+      <div className="col-12 col-md-10">
+        <h1 className="my-4">Dashboard</h1>
+        <div className="row pr-4">
+          <div className="col-xl-12 col-sm-12 mb-3">
+            <div className="card text-white bg-primary o-hidden h-100">
+              <div className="card-body">
+                <div className="text-center card-font-size">Total Amount<br /> <b>${totalAmount}</b></div>
+              </div>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-2xl font-semibold mb-4">Top 5 Selling Products</h2>
-            <div className="w-full h-64">
-              <Bar 
-                data={barChartData} 
-                options={{
-                  responsive: true,
-                  maintainAspectRatio: false,
-                  scales: {
-                    y: {
-                      beginAtZero: true,
-                      title: {
-                        display: true,
-                        text: 'Number of Sales'
-                      }
-                    },
-                    x: {
-                      title: {
-                        display: true,
-                        text: 'Product Name'
-                      }
-                    }
-                  }
-                }} 
-              />
+        </div>
+        <div className="row pr-4">
+          <div className="col-xl-3 col-sm-6 mb-3">
+            <div className="card text-white bg-success o-hidden h-100">
+              <div className="card-body">
+                <div className="text-center card-font-size">Products<br /> <b>{products.length}</b></div>
+              </div>
+              <Link className="card-footer text-white clearfix small z-1" to="/admin/products">
+                <span className="float-left">View Details</span>
+                <span className="float-right">
+                  <i className="fa fa-angle-right"></i>
+                </span>
+              </Link>
+            </div>
+          </div>
+
+          <div className="col-xl-3 col-sm-6 mb-3">
+            <div className="card text-white bg-danger o-hidden h-100">
+              <div className="card-body">
+                <div className="text-center card-font-size">Orders<br /> <b>{adminOrders.length}</b></div>
+              </div>
+              <Link className="card-footer text-white clearfix small z-1" to="/admin/orders">
+                <span className="float-left">View Details</span>
+                <span className="float-right">
+                  <i className="fa fa-angle-right"></i>
+                </span>
+              </Link>
+            </div>
+          </div>
+
+          <div className="col-xl-3 col-sm-6 mb-3">
+            <div className="card text-white bg-info o-hidden h-100">
+              <div className="card-body">
+                <div className="text-center card-font-size">Users<br /> <b>{users.length}</b></div>
+              </div>
+              <Link className="card-footer text-white clearfix small z-1" to="/admin/users">
+                <span className="float-left">View Details</span>
+                <span className="float-right">
+                  <i className="fa fa-angle-right"></i>
+                </span>
+              </Link>
+            </div>
+          </div>
+
+          <div className="col-xl-3 col-sm-6 mb-3">
+            <div className="card text-white bg-warning o-hidden h-100">
+              <div className="card-body">
+                <div className="text-center card-font-size">Contact Messages<br /> <b>{contactMessages.length}</b></div>
+              </div>
+              <Link className="card-footer text-white clearfix small z-1" to="/admin/contact-messages">
+                <span className="float-left">View Details</span>
+                <span className="float-right">
+                  <i className="fa fa-angle-right"></i>
+                </span>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Charts Section */}
+        <div className="row pr-4">
+          <div className="col-xl-6 col-sm-12 mb-3">
+            <div className="card o-hidden h-100">
+              <div className="card-body">
+                <h2 className="card-title">Product Stock Status</h2>
+                <div>
+                  <Pie data={pieChartData} options={{ responsive: true, maintainAspectRatio: false }} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-xl-6 col-sm-12 mb-3">
+            <div className="card o-hidden h-100">
+              <div className="card-body">
+                <h2 className="card-title">Top 5 Selling Products</h2>
+                <div>
+                  <Bar
+                    data={barChartData}
+                    options={{
+                      responsive: true,
+                      maintainAspectRatio: false,
+                      scales: {
+                        y: { beginAtZero: true },
+                      },
+                    }}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-};
-
-const DashboardCard = ({ title, value, link, color }) => (
-  <motion.div
-    whileHover={{ scale: 1.05 }}
-    className={`${color} rounded-lg shadow-md p-6 text-white`}
-  >
-    <h2 className="text-xl font-semibold mb-2">{title}</h2>
-    <p className="text-3xl font-bold mb-4">{value}</p>
-    <Link
-      to={link}
-      className="text-sm bg-white bg-opacity-20 hover:bg-opacity-30 py-2 px-4 rounded transition duration-300"
-    >
-      View Details
-    </Link>
-  </motion.div>
-);
-
-export default Dashboard;
-
+}

@@ -38,7 +38,7 @@ export default function OrderDetail() {
                         animate={{ y: 0 }}
                         transition={{ delay: 0.2 }}
                     >
-                        Order # {orderDetail._id}
+                        Order ID - {orderDetail._id}
                     </motion.h1>
 
                     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">

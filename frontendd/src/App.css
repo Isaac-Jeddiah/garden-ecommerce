@@ -621,3 +621,57 @@ ul.CTAs a {
   font-size: 0.8rem;
   color: grey;
 }
+/* General Layout Styles */
+.dashboard-layout {
+  display: flex;
+  height: 100vh; /* Full viewport height */
+}
+
+.sidebar-container {
+  width: 240px; /* Sidebar width */
+  background-color: #343a40; /* Sidebar background */
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto; /* Scroll if content exceeds height */
+}
+
+.main-content {
+  margin-left: 240px; /* Push content next to sidebar */
+  padding: 20px; /* Padding for content */
+  width: calc(100% - 240px);
+  overflow-y: auto;
+}
+
+.header {
+  width: 100%;
+  height: 60px;
+  background-color: #007bff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+.footer {
+  width: 100%;
+  height: 60px;
+  background-color: #007bff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  z-index: 1000;
+}
+
+body {
+  margin: 0;
+  padding: 60px 0 60px; /* Leave space for header and footer */
+  font-family: Arial, sans-serif;
+}

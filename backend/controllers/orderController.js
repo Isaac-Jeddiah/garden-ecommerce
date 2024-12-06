@@ -132,8 +132,12 @@ exports.cancelOrder = catchAsyncError(async (req, res, next) => {
     }
 
     order.orderStatus = 'Cancelled';  // Set order status to "Cancelled"
+   if(order.paymentInfo.status==="succeeded"){
     order.paymentInfo.status='will be refunded in a week'
-    await order.save();
+   }else{
+    order.paymentInfo.status="Cancelled"
+   }
+   await order.save();
 
     res.status(200).json({
         success: true,

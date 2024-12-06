@@ -30,7 +30,7 @@ export default function Header() {
   };
 
   const logoutHandler = () => {
-    dispatch(logout());
+    dispatch(logout);
   };
 
   return (
