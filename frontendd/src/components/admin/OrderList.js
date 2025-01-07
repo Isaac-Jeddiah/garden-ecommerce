@@ -1,5 +1,3 @@
-
-
 import { Fragment, useEffect, useState  } from "react"
 import { Button } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
@@ -10,10 +8,8 @@ import Loader from '../layouts/Loader';
 import { MDBDataTable} from 'mdbreact';
 import {toast } from 'react-toastify'
 import Sidebar from "./Sidebar"
-
 import { FiEdit, FiTrash2, FiRefreshCcw } from 'react-icons/fi';
 import axios from 'axios';
-
 
 export default function OrderList() {
     const { adminOrders = [], loading = true, error, isOrderDeleted }  = useSelector(state => state.orderState)

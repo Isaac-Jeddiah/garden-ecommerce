@@ -1,41 +1,29 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 
-export default function Product({ product }) {
+export default function Product ({product, col}) {
     return (
-        <motion.div
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
-        >
-            <Link to={`/product/${product._id}`}>
+        <div className={`col-sm-12 col-md-6 col-lg-${col} my-3`}>
+            <div className="card p-3 rounded">
+                {product.images.length > 0 &&
                 <img
-                    className="w-full h-48 object-cover"
-                    src={product.images[0]?.image}
-                    alt={product.name}
-                />
-            </Link>
-            <div className="p-4">
-                <Link to={`/product/${product._id}`} className="block">
-                    <h2 className="text-lg font-semibold text-green-700 dark:text-green-500 mb-2 hover:text-green-600 transition duration-300">{product.name}</h2>
-                </Link>
-                <div className="flex items-center mb-2">
-                    <div className="flex text-yellow-400">
-                        {[...Array(5)].map((_, index) => (
-                            <i key={index} className={`fas fa-star ${index < Math.floor(product.ratings) ? '' : 'text-gray-300'}`}></i>
-                        ))}
+                className="card-img-top mx-auto"
+                src={product.images[0].image}
+                alt={product.name}
+                />}
+                <div className="card-body d-flex flex-column">
+                <h5 className="card-title">
+                    <Link to={`/product/${product._id}`}>{product.name}</Link>
+                </h5>
+                <div className="ratings mt-auto">
+                    <div className="rating-outer">
+                    <div className="rating-inner" style={{width: `${product.ratings/ 5 * 100}%` }}></div>
                     </div>
-                    <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">({product.numOfReviews} Reviews)</span>
+                    <span id="no_of_reviews">({product.numOfReviews} Reviews)</span>
                 </div>
-                <p className="text-xl font-bold text-green-600 dark:text-green-400 mb-2">${product.price}</p>
-                <Link
-                    to={`/product/${product._id}`}
-                    className="block w-full text-center bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition duration-300"
-                >
-                    View Details
-                </Link>
+                <p className="card-text">${product.price}</p>
+                <Link to={`/product/${product._id}`} id="view_btn" className="btn btn-block">View Details</Link>
+                </div>
             </div>
-        </motion.div>
+        </div>
     )
 }
-

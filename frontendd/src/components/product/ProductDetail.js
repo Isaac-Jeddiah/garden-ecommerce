@@ -102,16 +102,20 @@ export default function ProductDetail() {
                             >
                                 <h1 className="text-3xl font-bold text-green-700 dark:text-green-500 mb-4">{product.name}</h1>
                                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">Product # {product._id}</p>
-
-                                <div className="flex items-center mb-4">
-                                    <div className="flex text-yellow-400">
-                                        {[...Array(5)].map((_, index) => (
-                                            <i key={index} className={`fas fa-star ${index < Math.floor(product.ratings) ? '' : 'text-gray-300'}`}></i>
-                                        ))}
-                                    </div>
+                                <motion.div
+                                initial={{ opacity: 0, y: 50 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.4 }}
+                                className="mt-8"
+                            >
+                                <div className="rating-outer">
+                        <div className="rating-inner" style={{width: `${product.ratings/ 5 * 100}%` }}></div>
+                    </div>
+                               
+                                    <div>
                                     <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">({product.numOfReviews} Reviews)</span>
                                 </div>
-
+</motion.div>
                                 <h3 className="text-3xl font-bold text-green-600 dark:text-green-400 mb-4">${product.price}</h3>
 
                                 <div className="flex items-center mb-4">

@@ -74,11 +74,12 @@ const authSlice = createSlice({
                 loading: false,
             }
         },
-        logoutSuccess(state, action){
+        logoutSuccess(state) {
             return {
                 loading: false,
                 isAuthenticated: false,
-            }
+                user: null, // Reset user on logout
+            };
         },
         logoutFail(state, action){
             return {

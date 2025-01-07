@@ -33,7 +33,8 @@ const productSchema = new mongoose.Schema({
         required: [true, "Please enter product category"],
         enum: {
             values: [
-                'Plants','Plant Care',
+                'Plants','Plant Care','House Shape Plant',
+        'Office Plant','Hanging Planter','Ceramic Pot and Plant'
             ],
             message : "Please select correct category"
         }

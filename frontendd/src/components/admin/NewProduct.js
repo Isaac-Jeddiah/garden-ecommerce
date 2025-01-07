@@ -18,9 +18,8 @@ export  default function NewProduct () {
     
     const { loading, isProductCreated, error } = useSelector( state => state.productState)
 
-    const categories = [
-        'Plants',
-        'Plant Care',
+    const categories = ['Plants', 'Plant Care','House Shape Plant',
+        'Office Plant','Hanging Planter','Ceramic Pot and Plant'
     ];
 
     const navigate = useNavigate();

@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState } from 'react';
 import { updatePassword as updatePasswordAction, clearAuthError } from '../../actions/userActions';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { toast } from 'react-toastify';
 
 export default function UpdatePassword() {
+    
     const [password, setPassword] = useState("");
     const [oldPassword, setOldPassword] = useState("");
     const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export default function UpdatePassword() {
 
     useEffect(() => {
         if(isUpdated) {
-            toast('Password updated successfully', {
+            toast('Password updated successfully',{
                 type: 'success',
                 position: toast.POSITION.BOTTOM_CENTER
             })
@@ -38,61 +39,35 @@ export default function UpdatePassword() {
     },[isUpdated, error, dispatch])
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8">
-                <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                        Update Password
-                    </h2>
-                </div>
-                <form className="mt-8 space-y-6" onSubmit={submitHandler}>
-                    <input type="hidden" name="remember" defaultValue="true" />
-                    <div className="rounded-md shadow-sm -space-y-px">
-                        <div>
-                            <label htmlFor="old-password" className="sr-only">
-                                Old Password
-                            </label>
-                            <input
-                                id="old-password"
-                                name="oldPassword"
-                                type="password"
-                                autoComplete="current-password"
-                                required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
-                                placeholder="Old Password"
-                                value={oldPassword}
-                                onChange={e => setOldPassword(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="new-password" className="sr-only">
-                                New Password
-                            </label>
-                            <input
-                                id="new-password"
-                                name="password"
-                                type="password"
-                                autoComplete="new-password"
-                                required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
-                                placeholder="New Password"
-                                value={password}
-                                onChange={e => setPassword(e.target.value)}
-                            />
-                        </div>
+        <div className="row wrapper">
+            <div className="col-10 col-lg-5">
+                <form onSubmit={submitHandler} className="shadow-lg">
+                    <h1 className="mt-2 mb-5">Update Password</h1>
+                    <div className="form-group">
+                        <label htmlFor="old_password_field">Old Password</label>
+                        <input
+                            type="password"
+                            id="old_password_field"
+                            className="form-control"
+                            value={oldPassword}
+                            onChange={e=>setOldPassword(e.target.value)}
+                        />
                     </div>
 
-                    <div>
-                        <button
-                            type="submit"
-                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                        >
-                            Update Password
-                        </button>
+                    <div className="form-group">
+                        <label htmlFor="new_password_field">New Password</label>
+                        <input
+                            type="password"
+                            id="new_password_field"
+                            className="form-control"
+                            value={password}
+                            onChange={e=>setPassword(e.target.value)}
+                        />
                     </div>
+
+                    <button type="submit" className="btn update-btn btn-block mt-4 mb-3">Update Password</button>
                 </form>
             </div>
         </div>
     )
 }
-

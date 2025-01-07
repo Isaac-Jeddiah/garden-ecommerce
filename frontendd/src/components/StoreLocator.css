@@ -1,0 +1,50 @@
+/* src/components/StoreLocator.css */
+
+.store-locator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  .store-locator:hover {
+    transform: scale(1.05); /* Scale animation on hover */
+  }
+  
+  .store-info {
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .store-info h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .store-info p {
+    margin: 0.5rem 0;
+    color: #555;
+  }
+  
+  .get-directions {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #4caf50; /* Green button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .get-directions:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  

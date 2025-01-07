@@ -2,6 +2,7 @@ import './App.css';
 import Home from './components/Home';
 import Footer from './components/layouts/Footer';
 import Header from './components/layouts/Header';
+// import HeroSection from './components/HeroSection';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { ToastContainer } from 'react-toastify';
@@ -38,18 +39,14 @@ import UpdateOrder from './components/admin/UpdateOrder';
 import UserList from './components/admin/UserList';
 import UpdateUser from './components/admin/UpdateUser';
 import ReviewList from './components/admin/ReviewList';
-import Blogs from './components/Blogs';
-import Gallery from './components/gallery/Gallery';
-import PaymentMethod from './components/cart/PaymentMethod';
-import CashOnDelivery from './components/cart/Cashondelivery';
-import Contact from './components/Contact';
+import Contact from './components/Contact/Contact';
+import Shop from './components/layouts/Shop';
+
 import ContactMessagesList from './components/admin/ContactMessagesList';
 
+import AboutUs from './components/AboutUs/AboutUs';
 
 
-// Import Contact components
-//import Contact from './components/Contact';
-//import ContactMessagesList from './components/admin/ContactMessagesList';
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("")
@@ -70,7 +67,11 @@ function App() {
                 <div className='container container-fluid'>
                   <ToastContainer theme='dark' />
                   <Routes>
-                      <Route path='/' element={<Home/>} />
+                      <Route path='/' element={<Home/>} />  
+                      <Route path="/shop" element={<Shop />} />
+
+                      <Route path="/about" element={<AboutUs />} />
+                      <Route path="/contact" element={<Contact />} />
                       <Route path='/search/:keyword' element={<ProductSearch/>} />
                       <Route path='/product/:id' element={<ProductDetail/>} />
                       <Route path='/login' element={<Login/>} />
@@ -86,13 +87,8 @@ function App() {
                       <Route path='/order/success' element={<ProtectedRoute><OrderSuccess/></ProtectedRoute> } />
                       <Route path='/orders' element={<ProtectedRoute><UserOrders/></ProtectedRoute> } />
                       <Route path='/order/:id' element={<ProtectedRoute><OrderDetail/></ProtectedRoute> } />
-                      <Route path='/blogs' element={<Blogs/>} />
-                      <Route path='/gallery' element={<Gallery/>} />
-                      <Route path='/paymentmethod' element={<ProtectedRoute><PaymentMethod/></ProtectedRoute> } />
-                      <Route path='/cashondelivery' element={<ProtectedRoute><CashOnDelivery/></ProtectedRoute> } />
-                      <Route path='/contact' element={<Contact/>} />
                       {stripeApiKey && <Route path='/payment' element={<ProtectedRoute><Elements stripe={loadStripe(stripeApiKey)}><Payment/></Elements></ProtectedRoute> } />
-  } 
+} 
                   </Routes>
                 </div>
                 {/* Admin Routes */}
@@ -117,4 +113,3 @@ function App() {
 }
 
 export default App;
-

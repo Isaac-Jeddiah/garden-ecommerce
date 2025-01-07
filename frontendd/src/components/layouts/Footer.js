@@ -1,44 +1,108 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { Logo } from './Logo'; // Ensure the path is correct
+import { SocialLinks } from './SocialLinks'; // Ensure the path is correct
+import { Phone, Mail } from 'lucide-react'; // Ensure lucide-react is installed
 
 export default function Footer() {
+  const navigate = useNavigate(); // Initialize navigate for navigation
+
   return (
-    <footer className="bg-light text-dark pt-5 pb-4">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-3 col-lg-4 col-xl-3">
-            <h5>About PlantStore</h5>
-            <hr className="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
-            <p className="mb-0">
-              PlantStore is your one-stop shop for all things green. We offer a wide variety of plants and care products to help your garden thrive.
-            </p>
+    <footer className="bg-white py-12 px-4">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-8">
+          <Logo />
+          <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
+            Your one-stop solution for all your shopping needs.
+          </p>
+          <SocialLinks />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div className="space-y-4">
+            <h3 className="font-semibold text-lg text-gray-800">Got Questions? Connect Us</h3>
+            <div className="flex items-center gap-2 text-emerald-500">
+              <Phone size={20} />
+              <a href="tel:+0522330399" className="hover:text-emerald-600 transition-colors">
+                +052 2330399
+              </a>
+              
+            </div>
+            <div className="flex items-center gap-2 text-emerald-500">
+              <Mail size={20} />
+              <a href="mailto:treesherbsandmore@gmail.com" className="hover:text-emerald-600 transition-colors">
+                Treesherbsandmore@gmail.com
+              </a>
+            </div>
           </div>
-          <div className="col-md-3 col-lg-2 col-xl-2 mx-auto">
-            <h5>Plant Quote</h5>
-            <hr className="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
-            <p><i>"In every walk with nature, one receives far more than he seeks."</i> - John Muir</p>
-          </div>
-          <div className="col-md-3 col-lg-2 col-xl-2 mx-auto">
-            <h5>Contact Us</h5>
-            <hr className="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
-            <ul className="list-unstyled">
-              <li><i className="fa fa-home mr-2"></i> 123 Plant Street, Green City</li>
-              <li><i className="fa fa-envelope mr-2"></i> info@plantstore.com</li>
-              <li><i className="fa fa-phone mr-2"></i> + 01 234 567 88</li>
+
+          <div className="space-y-4">
+            <h3 className="font-semibold text-lg text-gray-800">Useful Links</h3>
+            <ul className="space-y-2">
+              <li>
+                <button
+                  onClick={() => navigate('/about')}
+                  className="text-gray-600 hover:text-emerald-500 transition-colors"
+                >
+                  About Us
+                </button>
+              </li>
+              <li>
+                <a href="#" className="text-gray-600 hover:text-emerald-500">
+                  FAQ
+                </a>
+              </li>
+              <li>
+                <button
+                  onClick={() => navigate('/contact')} // Navigate to contact page
+                  className="text-gray-600 hover:text-emerald-500 transition-colors"
+                >
+                  Contact Us
+                </button>
+              </li>
             </ul>
           </div>
-          <div className="col-md-3 col-lg-3 col-xl-3">
-            <h5>Find Us</h5>
-            <hr className="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
-            
-            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d464400.74763476005!2d54.474501599218755!3d24.584680329573867!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5e675698dbeaa7%3A0xdafa40a10b2a3be!2sTrees%20Herbs%20and%20more!5e0!3m2!1sen!2sin!4v1733390103310!5m2!1sen!2sin" 
-               width="100%" height="150" frameBorder="0" style={{border:0}} allowFullScreen></iframe>
+
+          <div className="space-y-4">
+            <h3 className="font-semibold text-lg text-gray-800">My Account</h3>
+            <ul className="space-y-2">
+              <li>
+                <button
+                  onClick={() => navigate('/login')} // Navigate to login page
+                  className="text-gray-600 hover:text-emerald-500 transition-colors"
+                >
+                  Sign In
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => navigate('/cart')} // Navigate to cart page
+                  className="text-gray-600 hover:text-emerald-500 transition-colors"
+                >
+                  View Cart
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => navigate('/orders')} // Navigate to orders page
+                  className="text-gray-600 hover:text-emerald-500 transition-colors"
+                >
+                  Track My Order
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="font-semibold text-lg text-gray-800">Follow Us</h3>
+            <SocialLinks />
           </div>
         </div>
-        <div className="row mt-3">
-          <div className="col text-center">
-            <p className="text-dark mb-0 py-2">© 2023 PlantStore. All rights reserved.</p>
-          </div>
+
+        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-200">
+          <p className="text-gray-600 text-sm">
+            Trees Herbs & More Flowers - 2024-2025, All Rights Reserved
+          </p>
         </div>
       </div>
     </footer>

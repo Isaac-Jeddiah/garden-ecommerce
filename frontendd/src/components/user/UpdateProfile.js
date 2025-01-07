@@ -21,6 +21,7 @@ export default function UpdateProfile () {
              }
         }
 
+
         reader.readAsDataURL(e.target.files[0])
     }
 
@@ -62,87 +63,64 @@ export default function UpdateProfile () {
     },[user, isUpdated, error, dispatch])
 
     return (  
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8">
-                <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                        Update Profile
-                    </h2>
-                </div>
-                <form className="mt-8 space-y-6" onSubmit={submitHandler} encType='multipart/form-data'>
-                    <input type="hidden" name="remember" defaultValue="true" />
-                    <div className="rounded-md shadow-sm -space-y-px">
-                        <div>
-                            <label htmlFor="name" className="sr-only">
-                                Name
-                            </label>
-                            <input
-                                id="name"
-                                name="name"
-                                type="text"
-                                required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
-                                placeholder="Name"
-                                value={name}
-                                onChange={e => setName(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="email-address" className="sr-only">
-                                Email address
-                            </label>
-                            <input
-                                id="email-address"
-                                name="email"
-                                type="email"
-                                autoComplete="email"
-                                required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
-                                placeholder="Email address"
-                                value={email}
-                                onChange={e => setEmail(e.target.value)}
-                            />
-                        </div>
-                    </div>
+    <div className="row wrapper">
+        <div className="col-10 col-lg-5">
+            <form onSubmit={submitHandler} className="shadow-lg" encType='multipart/form-data'>
+                <h1 className="mt-2 mb-5">Update Profile</h1>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Avatar</label>
-                        <div className="mt-1 flex items-center">
-                            <span className="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                <div className="form-group">
+                    <label htmlFor="email_field">Name</label>
+                    <input 
+                        type="name" 
+                        id="name_field" 
+                        className="form-control"
+                        name='name'
+                        value={name}
+                        onChange={e=>setName(e.target.value)}
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="email_field">Email</label>
+                    <input
+                        type="email"
+                        id="email_field"
+                        className="form-control"
+                        name='email'
+                        value={email}
+                        onChange={e=>setEmail(e.target.value)}
+                    />
+                </div>
+
+                <div className='form-group'>
+                    <label htmlFor='avatar_upload'>Avatar</label>
+                    <div className='d-flex align-items-center'>
+                        <div>
+                            <figure className='avatar mr-3 item-rtl'>
                                 <img
                                     src={avatarPreview}
-                                    alt="Avatar Preview"
-                                    className="h-full w-full object-cover"
+                                    className='rounded-circle'
+                                    alt='Avatar Preview'
                                 />
-                            </span>
-                            <label
-                                htmlFor="avatar-upload"
-                                className="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                            >
-                                <span>Change</span>
-                                <input
-                                    id="avatar-upload"
-                                    name="avatar"
-                                    type="file"
-                                    className="sr-only"
-                                    accept="image/*"
-                                    onChange={onChangeAvatar}
-                                />
-                            </label>
+                            </figure>
+                        </div>
+                        <div className='custom-file'>
+                            <input
+                                type='file'
+                                name='avatar'
+                                className='custom-file-input'
+                                id='customFile'
+                                onChange={onChangeAvatar}
+                            />
+                            <label className='custom-file-label' htmlFor='customFile'>
+                                Choose Avatar
+                        </label>
                         </div>
                     </div>
+                </div>
 
-                    <div>
-                        <button
-                            type="submit"
-                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                        >
-                            Update Profile
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <button type="submit" className="btn update-btn btn-block mt-4 mb-3" >Update</button>
+            </form>
         </div>
-    )
+    </div>)
 }
-

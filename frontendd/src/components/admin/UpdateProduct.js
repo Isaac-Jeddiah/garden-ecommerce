@@ -19,7 +19,9 @@ export default function UpdateProduct () {
     const { id:productId } = useParams();
     
     const { loading, isProductUpdated, error, product } = useSelector( state => state.productState)
-    const categories = ['Plants', 'Plant Care'];
+    const categories = ['Plants', 'Plant Care','House Shape Plant',
+        'Office Plant','Hanging Planter','Ceramic Pot and Plant'
+    ];
     // const categories = [
     //     'Electronics',
     //     'Mobile Phones',

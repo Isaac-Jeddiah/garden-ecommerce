@@ -90,16 +90,14 @@ export const loadUser =  async (dispatch) => {
 
 }
 
-export const logout =  async (dispatch) => {
-
+export const logout = () => async (dispatch) => {
     try {
         await axios.get(`/api/v1/logout`);
-        dispatch(logoutSuccess())
+        dispatch(logoutSuccess());
     } catch (error) {
-        dispatch(logoutFail)
+        dispatch(logoutFail(error.response.data.message)); // Dispatch logout fail with error message
     }
-
-}
+};
 
 export const updateProfile = (userData) => async (dispatch) => {
 
